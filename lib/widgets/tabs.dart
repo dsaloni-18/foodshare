@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../screens/ongoing_orders.dart';
+import '../screens/history.dart';
 class Tabs extends StatefulWidget {
   static const routeName='tabs';
 

@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:foodshare/screens/ongoing_orders.dart';
+import 'package:foodshare/screens/history.dart';
 import 'package:foodshare/screens/yourorder.dart';
 import 'package:foodshare/sign_in.dart';
 import 'package:foodshare/spash_screen.dart';

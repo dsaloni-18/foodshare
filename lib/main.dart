@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodshare/screens/ongoing_orders.dart';
-import './screens/past_orders_details.dart';
 import 'package:foodshare/screens/yourorder.dart';
 import 'package:foodshare/sign_in.dart';
 import 'package:foodshare/spash_screen.dart';
@@ -10,11 +9,8 @@ import './screens/add_order.dart';
 import './screens/donor_main.dart';
 import './screens/tick.dart';
 import './screens/receiver_home_screen.dart';
-import './screens/donation_detail_screen.dart';
 import './screens/confirm_order_screen.dart';
-import './screens/pastorders.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './screens/feedback_screen.dart';
 import './widgets/tabs.dart';
 
 void main() async {
@@ -79,19 +75,15 @@ class _MyAppState extends State<MyApp> {
             return const SignIn();
           }),
       routes: {
-        PastOrdersScreen.routeName: (ctx) => PastOrdersScreen(),
         SplashScreen.routeName: (ctx) => const SplashScreen(),
         SignIn.routeName: (ctx) => const SignIn(),
         AddOrder.routeName: (ctx) => const AddOrder(),
         DonorMain.routeName: (ctx) => const DonorMain(),
         TickPage.routeName: (ctx) => TickPage(),
-        DonationDetailScreen.routeName: (ctx) =>  DonationDetailScreen(),
         ConfirmOrderScreen.routeName: (ctx) => const ConfirmOrderScreen(),
         ReceiverHomeScreen.routeName: (ctx) => ReceiverHomeScreen(),
-        FeedbackScreen.routeName: (ctx) => const FeedbackScreen(),
         MyOrders.routeName: (ctx) => MyOrders(),
         Tabs.routeName: (ctx) => const Tabs(),
-        PastOrderDetailScreen.routeName: (ctx) => const PastOrderDetailScreen(),
         OngoingOrders.routeName: (ctx) =>  OngoingOrders(),
       },
     );

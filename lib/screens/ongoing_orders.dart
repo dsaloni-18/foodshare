@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import './donation_detail_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../screens/donation_detail_screen.dart';
 
 class OngoingOrders extends StatefulWidget {
   static const routeName = 'abc115';
@@ -21,27 +19,7 @@ class _OngoingOrdersState extends State<OngoingOrders> {
     var formattedDate1 = DateFormat.Hm().format(date);
     return SizedBox(
       child: InkWell(
-        onTap: () {
-          Navigator.of(context)
-              .pushNamed(DonationDetailScreen.routeName, arguments: {
-            'isConfirm': isConfirm,
-            'username': documents[i]['username'],
-            'address': documents[i]['address'],
-            'typeofdonor': documents[i]['typeofdonor'],
-            'isVeg': documents[i]['isVeg'],
-            'range': documents[i]['range'],
-            'foodDescription': documents[i]['foodDescription'],
-            'donorName': documents[i]['donorName'],
-            'contact': documents[i]['contact'],
-            'email': documents[i]['email'],
-            'status': documents[i]['status'],
-            'id': documents[i]['id'],
-            'userId': documents[i]['userId'],
-            'date': documents[i]['date'],
-            'time': documents[i]['time'],
-            // 'finished':documents[i]['finished']
-          });
-        },
+       
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(

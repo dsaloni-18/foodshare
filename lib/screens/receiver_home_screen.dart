@@ -2,14 +2,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:foodshare/screens/filters_screen.dart';
 import './confirm_order_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/main_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../screens/donation_detail_screen.dart';
 import 'package:intl/intl.dart';
-
 
 class ReceiverHomeScreen extends StatefulWidget {
   static const routeName = 'receiver-home-screen';
@@ -47,26 +44,7 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: InkWell(
-        onTap: () {
-          /*Navigator.of(context)
-              .pushNamed(DonationDetailScreen.routeName, arguments: {
-            'isConfirm': isConfirm,
-            'username': documents[i]['username'],
-            'address': documents[i]['address'],
-            'typeofdonor': documents[i]['typeofdonor'],
-            'isVeg': documents[i]['isVeg'],
-            'range': documents[i]['range'],
-            'foodDescription': documents[i]['description'],
-            'donorName': documents[i]['donorName'],
-            'contact': documents[i]['contact'],
-            'email': documents[i]['email'],
-            'status': documents[i]['status'],
-            'id': documents[i]['id'],
-            'userId': documents[i]['userId'],
-            'date': documents[i]['date'],
-            'time1': documents[i]['time1'],
-          });*/
-        },
+        
         child: Column(
           children: <Widget>[
             Container(
@@ -95,12 +73,10 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                               child: Text(
                                 documents[i]['username'],
                                 style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                      
                         ],
                       ),
                       const Divider(
@@ -147,8 +123,7 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                         Text(
                           'Serves $rangenumber',
                           style: const TextStyle(
-                              color: Colors.black,
-                              fontStyle: FontStyle.italic),
+                              color: Colors.black, fontStyle: FontStyle.italic),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.6),
@@ -173,8 +148,7 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                         Text(
                           'Available for pickup uptil $formattedDate,$formattedDate1',
                           style: const TextStyle(
-                              color: Colors.black,
-                              fontStyle: FontStyle.italic),
+                              color: Colors.black, fontStyle: FontStyle.italic),
                         ),
                       ]),
                       Padding(
@@ -287,19 +261,22 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                               context: context,
                               builder: (ctx) {
                                 return AlertDialog(
-                                    title: const Text("Oops something went wrong"),
+                                    title:
+                                        const Text("Oops something went wrong"),
                                     content: Container(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.129,
                                         child: Column(children: <Widget>[
                                           Text(
-                                          err.message
-                                            ?? "sorry for incovinience",
-                                          style: const TextStyle(fontSize: 15),
+                                            err.message ??
+                                                "sorry for incovinience",
+                                            style:
+                                                const TextStyle(fontSize: 15),
                                           ),
                                           IconButton(
-                                              icon: const Icon(Icons.arrow_back),
+                                              icon:
+                                                  const Icon(Icons.arrow_back),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               })
@@ -315,7 +292,8 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                               context: context,
                               builder: (ctx) {
                                 return AlertDialog(
-                                    title: const Text("Oops something went wrong"),
+                                    title:
+                                        const Text("Oops something went wrong"),
                                     content: FittedBox(
                                         child: Column(children: <Widget>[
                                       const Text("sorry for incovinience"),
@@ -340,7 +318,8 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text('No', style: TextStyle(color: Colors.black)),
+                    child:
+                        const Text('No', style: TextStyle(color: Colors.black)),
                   ),
                 ],
               ));
@@ -355,7 +334,6 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
           titleSpacing: 0,
           backgroundColor: Colors.blueAccent,
           title: const Text('FoodShare'),
-       
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -390,9 +368,9 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                               (rangeKeys.isEmpty || rangeKeys.contains(0)))
                           ? StreamBuilder(
                               stream: FirebaseFirestore.instance
-                                .collection('orders')
-                              .orderBy('time', descending: true)
-                              .snapshots(),
+                                  .collection('orders')
+                                  .orderBy('time', descending: true)
+                                  .snapshots(),
                               builder: (ctx, streamSnapshot) {
                                 if (streamSnapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -403,50 +381,49 @@ class _ReceiverHomeScreenState extends State<ReceiverHomeScreen> {
                                   );
                                 }
                                 final documents = streamSnapshot.data?.docs;
-                           
 
                                 return Container(
                                   child: Padding(
                                     padding: const EdgeInsets.all(9.0),
                                     child: isLoading
                                         ? const Center(
-                                      child: CircularProgressIndicator(
-                                          backgroundColor: Colors.black),
-                                    )
+                                            child: CircularProgressIndicator(
+                                                backgroundColor: Colors.black),
+                                          )
                                         : Container(
-                                      child: ListView.builder(
+                                            child: ListView.builder(
 
-                                        //shrinkWrap: true,
-                                          itemBuilder: (ctx, i) {
-                                            DateTime date2 = documents?[i]
-                                            ['date']
-                                                .toDate();
+                                                //shrinkWrap: true,
+                                                itemBuilder: (ctx, i) {
+                                                  DateTime date2 = documents?[i]
+                                                          ['date']
+                                                      .toDate();
 
-                                            if (date2.isBefore(
-                                                DateTime.now())) {
-                                              FirebaseFirestore.instance
-                                                  .collection('orders')
-                                                  .doc(
-                                                  documents?[i]['id'])
-                                                  .delete();
-                                            }
-                                            if (documents?[i]['status'] ==
-                                                true) {
-                                            
-                                              return const SizedBox(
-                                                  height: 0, width: 0);
-                                            }
+                                                  if (date2.isBefore(
+                                                      DateTime.now())) {
+                                                    FirebaseFirestore.instance
+                                                        .collection('orders')
+                                                        .doc(
+                                                            documents?[i]['id'])
+                                                        .delete();
+                                                  }
+                                                  if (documents?[i]['status'] ==
+                                                      true) {
+                                                    return const SizedBox(
+                                                        height: 0, width: 0);
+                                                  }
 
-                                            return getDonorTile(
-                                                i, documents);
-                                          },
-                                          itemCount: documents?.length),
-                                    ),
+                                                  return getDonorTile(
+                                                      i, documents);
+                                                },
+                                                itemCount: documents?.length),
+                                          ),
                                   ),
                                 );
                               },
-                      )
-                         : FiltersScreen(filterKeys, rangeKeys),
+                            )
+                          : const SizedBox(height: 0,), 
+                        
                     ),
                   ],
                 )

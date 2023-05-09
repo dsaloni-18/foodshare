@@ -1,0 +1,103 @@
+// ignore_for_file: depend_on_referenced_packages, library_private_types_in_public_api
+
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+//import 'package:carousel_slider/carousel_slider.dart';
+
+import './add_order.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../widgets/order_list.dart';
+import '../models/orders.dart';
+//import 'package:carousel_pro/carousel_pro.dart';
+
+import '../widgets/drawer2.dart';
+
+class DonorMain extends StatefulWidget {
+  static const routeName = '/donor-main';
+
+  const DonorMain({super.key});
+
+  @override
+  _DonorMainState createState() => _DonorMainState();
+}
+
+class _DonorMainState extends State<DonorMain> {
+  int value = 0;
+  late UserCredential authResult;
+  final List<Orders> _loadedOrders = [
+    Orders(
+      range: 2,
+      isVeg: true,
+      description: 'Roti', date: DateFormat(),
+    )
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+  
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        title: const Text(
+          'FoodShare',
+          style: TextStyle(
+              fontSize: 20,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold),
+        ),
+        // ),
+      ),
+      drawer: MainDrawer1(),
+     
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const SizedBox(height: 10,),
+            Container(
+              color: Colors.white,
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(1.0),
+                  child: Text(
+                    ' Your Donations: ',
+                    textAlign: TextAlign.start,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
+            const Divider(color: Colors.black),
+            OrdersList(_loadedOrders),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.black,
+        child: Container(
+            color: Colors.blueAccent,
+            child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(AddOrder.routeName);
+                },
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:const  <Widget>[
+                    Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    Text(
+                      'Donate Now',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ],
+                ))),
+      ),
+    );
+  }
+}

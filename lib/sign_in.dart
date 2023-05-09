@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+//import './signinbuttons/sign_buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodshare/Reusable_widgets/reusable_widgets.dart';
-import 'package:foodshare/screens/Donor/Donor.dart';
-import 'package:foodshare/screens/Receiver/receiver.dart';
-import 'package:foodshare/screens/reset_password.dart';
-import 'package:foodshare/screens/sign_up.dart';
+import 'package:foodshare/screens/reusable_widgets.dart';
+import './sign_up.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import './screens/donor_main.dart';
+import './screens/receiver_home_screen.dart';
+//import './error.dart';
 
 class SignIn extends StatefulWidget {
   static const routeName = 'SignIN';
@@ -82,9 +83,9 @@ class _SignInState extends State<SignIn> {
 
   void save() async {
     UserCredential authResult;
-    final isValid = _formKey.currentState!.validate;
+    final isValid = _formKey.currentState?.validate;
     FocusScope.of(context).unfocus();
-    if (isValid) {
+    if (isValid != null) {
       _formKey.currentState?.save();
       try {
         setState(() {
@@ -98,14 +99,12 @@ class _SignInState extends State<SignIn> {
         await doc1.get().then((value) {
           isDonor = value['Donor'];
         });
-        
         print(isDonor);
         if (isDonor) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (ctx) => const Donor()));
+          Navigator.of(context).pushReplacementNamed(DonorMain.routeName);
         } else {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (ctx) => const NGO()));
+          Navigator.of(context)
+              .pushReplacementNamed(ReceiverHomeScreen.routeName);
         }
       } on PlatformException catch (err) {
         var message = 'An error occurred, please check your credentials!';
@@ -169,29 +168,28 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.blueAccent,
         elevation: 0,
         title: const Text(
           "Sign In",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.white),
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: SizedBox(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-         
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Colors.blueAccent, Colors.white54, Colors.black],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
           child: Container(
             padding: const EdgeInsets.all(25),
-          
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.blueAccent, Colors.white54, Colors.black],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter)),
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -213,14 +211,12 @@ class _SignInState extends State<SignIn> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                           labelText: 'Email',
-                          labelStyle: TextStyle(color: Colors.black),
-                          prefixIcon: Icon(Icons.email, color: Colors.black)
-                          ),
+                          prefixIcon: Icon(Icons.email, color: Colors.black)),
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18),
                       textInputAction: TextInputAction.next,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.isEmpty || !value.contains('@')) {
                           return 'Please provide a value.';
                         }
                         return null;
@@ -234,31 +230,25 @@ class _SignInState extends State<SignIn> {
                         _userEmail = value!.trim();
                       },
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     TextFormField(
                       initialValue: null,
                       controller: pwd,
                       decoration: InputDecoration(
-                        labelText: 'Password',
-                        labelStyle: const TextStyle(color: Colors.black),
-                        prefixIcon: const Icon(
-                          Icons.lock,
-                          color: Colors.black,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: _showPwd
-                              ? const Icon(
-                                  Icons.visibility_off,
-                                  color: Colors.black,
-                                )
-                              : const Icon(Icons.visibility,
-                                  color: Colors.black),
-                          onPressed: () => password(),
-                        ),
-                       
-                      ),
+                          labelText: 'Password',
+                          prefixIcon: const Icon(
+                            Icons.lock,
+                            color: Colors.black,
+                          ),
+                          suffixIcon: IconButton(
+                            icon: _showPwd
+                                ? const Icon(
+                                    Icons.visibility_off,
+                                    color: Colors.black,
+                                  )
+                                : const Icon(Icons.visibility,
+                                    color: Colors.black),
+                            onPressed: () => password(),
+                          )),
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18),
                       obscureText: _showPwd,
@@ -271,17 +261,16 @@ class _SignInState extends State<SignIn> {
                       },
                       onFieldSubmitted: (value) {
                         FocusScope.of(context).unfocus();
+
                         _userPasswrod = value.trim();
                       },
                       onSaved: (value) {
                         _userPasswrod = value!;
                       },
                     ),
-                    forgetPassword(context),
                     const SizedBox(
                       height: 20,
                     ),
-                    
                     isLoading
                         ? const CircularProgressIndicator()
                         : Row(
@@ -290,9 +279,7 @@ class _SignInState extends State<SignIn> {
                               firebaseUIButton(context, "Log in", () {
                                 FocusScope.of(context).unfocus();
                                 save();
-                                
                               }),
-                          
                             ],
                           ),
                     const SizedBox(
@@ -329,23 +316,6 @@ class _SignInState extends State<SignIn> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget forgetPassword(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 35,
-      alignment: Alignment.bottomRight,
-      child: TextButton(
-        child: const Text(
-          "Forgot Password?",
-          style: TextStyle(color: Colors.black87, fontSize: 16),
-          textAlign: TextAlign.right,
-        ),
-        onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ResetPassword())),
       ),
     );
   }

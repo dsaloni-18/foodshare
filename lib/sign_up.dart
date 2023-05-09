@@ -1,9 +1,14 @@
+// ignore_for_file: unnecessary_null_comparison, avoid_print, library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:foodshare/Reusable_widgets/reusable_widgets.dart';
-import 'package:foodshare/screens/WelcomePage.dart';
+
+import 'package:foodshare/screens/donor_main.dart';
+import 'package:foodshare/screens/reusable_widgets.dart';
+import 'package:foodshare/sign_in.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -102,7 +107,7 @@ class _SignUpState extends State<SignUp> {
     final isValid = _formKey.currentState!.validate;
     FocusScope.of(context).unfocus();
 
-    if (isValid) {
+    if (isValid==null) {
       _formKey.currentState?.save();
 
       try {
@@ -162,8 +167,7 @@ class _SignUpState extends State<SignUp> {
             .collection('users')
             .doc(authResult.user?.uid)
             .set({'Donor': isDonor});
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (ctx) => const Welcome()));
+        Navigator.of(context).pushNamed( DonorMain.routeName);
       } on PlatformException catch (err) {
         if (err.message != null) {}
         showDialog(
@@ -531,11 +535,12 @@ class _SignUpState extends State<SignUp> {
                             : count != 0
                                 ? firebaseUIButton(context, "Sign Up",  () {
                                         FocusScope.of(context).unfocus();
-                                        _formKey.currentState!.validate
+                                        _formKey.currentState!.validate()
                                             ? validation()
                                             : print('');
 
                                         right ? saveAll() : print('');
+                                      Navigator.of(context).pushNamed(SignIn.routeName);
                                       },)
                              
                                 : const Text("")

@@ -1,15 +1,10 @@
-// ignore_for_file: depend_on_referenced_packages, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-//import 'package:carousel_slider/carousel_slider.dart';
-
 import './add_order.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/order_list.dart';
 import '../models/orders.dart';
-//import 'package:carousel_pro/carousel_pro.dart';
-
 import '../widgets/drawer2.dart';
 
 class DonorMain extends StatefulWidget {
@@ -56,7 +51,7 @@ class _DonorMainState extends State<DonorMain> {
           children: <Widget>[
             const SizedBox(height: 10,),
             Container(
-              color: Colors.white,
+              color: Colors.cyan[50],
               child: const Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(

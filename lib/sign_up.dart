@@ -4,11 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-
-import 'package:foodshare/screens/donor_main.dart';
 import 'package:foodshare/screens/reusable_widgets.dart';
 import 'package:foodshare/sign_in.dart';
-
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -36,6 +33,7 @@ class _SignUpState extends State<SignUp> {
   bool isResto = false;
   bool isCaterer = false;
   bool isIndividual = false;
+  bool isNGO=false;
   String restoName = '';
   String catererName = '';
   String indiName = '';
@@ -106,10 +104,8 @@ class _SignUpState extends State<SignUp> {
     UserCredential authResult;
     final isValid = _formKey.currentState!.validate;
     FocusScope.of(context).unfocus();
-
-    if (isValid==null) {
+    if (isValid != null) {
       _formKey.currentState?.save();
-
       try {
         setState(() {
           isLoading = true;
@@ -153,8 +149,20 @@ class _SignUpState extends State<SignUp> {
               'reportCount': 0,
             });
           }
-        } else {
-          await FirebaseFirestore.instance
+        }
+         else {
+          if(isNGO){
+             await FirebaseFirestore.instance
+              .collection('ngo')
+              .doc(authResult.user?.uid)
+              .set({
+            'username': _userName.trim(),
+            'email': _userEmail.trim(),
+            'password': _userPasswrod.trim()
+          });
+          }
+          else{
+            await FirebaseFirestore.instance
               .collection('receiver')
               .doc(authResult.user?.uid)
               .set({
@@ -162,12 +170,14 @@ class _SignUpState extends State<SignUp> {
             'email': _userEmail.trim(),
             'password': _userPasswrod.trim()
           });
+          }
         }
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(authResult.user?.uid)
-            .set({'Donor': isDonor});
-        Navigator.of(context).pushNamed( DonorMain.routeName);
+        await FirebaseFirestore.instance.collection('users').doc(authResult.user?.uid).set({'Donor':isDonor,'NGO':isNGO});
+        // await FirebaseFirestore.instance
+        //     .collection('users')
+        //     .doc(authResult.user?.uid)
+        //     .set({'Donor': isDonor});
+        Navigator.of(context).pushNamed(SignIn.routeName);
       } on PlatformException catch (err) {
         if (err.message != null) {}
         showDialog(
@@ -216,12 +226,13 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-         backgroundColor: Colors.blueAccent,
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
         elevation: 0,
         title: const Text(
           "Sign Up",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: Colors.white),
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       body: GestureDetector(
@@ -231,10 +242,8 @@ class _SignUpState extends State<SignUp> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          
           child: Container(
             padding: const EdgeInsets.all(25),
-           
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
                     colors: [Colors.blueAccent, Colors.white54, Colors.black],
@@ -262,7 +271,7 @@ class _SignUpState extends State<SignUp> {
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18),
                       textInputAction: TextInputAction.next,
-                       validator: (value) {
+                      validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please provide a value.';
                         }
@@ -481,26 +490,119 @@ class _SignUpState extends State<SignUp> {
                           )
                         : const Text(''),
                     count == -1
-                        ? TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Your name',
-                              labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                            onFieldSubmitted: (value) {
-                              _userName = value;
-                              FocusScope.of(context).unfocus();
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) return ' Enter a valid name';
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _userName = value!;
-                            },
-                          )
+                          ?Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                'What are you?',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                              CheckboxListTile(
+                                title: const Text("NGO",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                value: isNGO,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    isNGO = !isNGO;
+                                  });
+                                },
+                                controlAffinity: ListTileControlAffinity
+                                    .leading, //  <-- leading Checkbox
+                              ),
+                            
+                              CheckboxListTile(
+                                title: const Text('Individual',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                value: isIndividual,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    isIndividual = !isIndividual;
+                                  });
+                                },
+                                controlAffinity: ListTileControlAffinity
+                                    .leading, //  <-- leading Checkbox
+                              ),
+                              isNGO
+                                  ? TextFormField(
+                                      decoration: const InputDecoration(
+                                        labelText: 'NGO name',
+                                        labelStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                      onFieldSubmitted: (value) {
+                                        _userName = value;
+                                        FocusScope.of(context).unfocus();
+                                      },
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'enter a vaild name';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        _userName = value!;
+                                      },
+                                    )
+                                  : const Text(''),
+                              isIndividual
+                                  ? TextFormField(
+                                      decoration: const InputDecoration(
+                                        labelText: 'Your name',
+                                        labelStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                      onFieldSubmitted: (value) {
+                                        _userName = value;
+                                        FocusScope.of(context).unfocus();
+                                      },
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return ' Enter a valid name';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        _userName = value!;
+                                      },
+                                    )
+                                  : const Text(''),
+                            ],
+                          ) 
+                        // ? TextFormField(
+                        //     decoration: const InputDecoration(
+                        //       labelText: 'Your name',
+                        //       labelStyle: TextStyle(
+                        //           fontWeight: FontWeight.bold, fontSize: 18),
+                        //     ),
+                        //     style: const TextStyle(
+                        //         fontWeight: FontWeight.bold, fontSize: 18),
+                        //     onFieldSubmitted: (value) {
+                        //       _userName = value;
+                        //       FocusScope.of(context).unfocus();
+                        //     },
+                        //     validator: (value) {
+                        //       if (value!.isEmpty) return ' Enter a valid name';
+                        //       return null;
+                        //     },
+                        //     onSaved: (value) {
+                        //       _userName = value!;
+                        //     },
+                        //   )
                         : const Text(''),
                     const SizedBox(
                       height: 10,
@@ -509,22 +611,24 @@ class _SignUpState extends State<SignUp> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         if (count == 0)
-                        firebaseUIButton(context,"Start Receiving",(){FocusScope.of(context).unfocus();
-                                _formKey.currentState!.validate;
+                          firebaseUIButton(context, "Start Receiving", () {
+                            FocusScope.of(context).unfocus();
+                            _formKey.currentState!.validate;
 
-                                setState(() {
-                                  isDonor = false;
-                                  count = -1;
-                                });}),
-                        
+                            setState(() {
+                              isDonor = false;
+                              count = -1;
+                            });
+                          }),
                         if (count == 0)
-                              firebaseUIButton(context,"Start Donating",(){FocusScope.of(context).unfocus();
-                                _formKey.currentState!.validate;
-                                setState(() {
-                                  isDonor = true;
-                                  count = 1;
-                                });}),
-                        
+                          firebaseUIButton(context, "Start Donating", () {
+                            FocusScope.of(context).unfocus();
+                            _formKey.currentState!.validate;
+                            setState(() {
+                              isDonor = true;
+                              count = 1;
+                            });
+                          }),
                         isLoading
                             ? Container(
                                 alignment: Alignment.center,
@@ -533,16 +637,14 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               )
                             : count != 0
-                                ? firebaseUIButton(context, "Sign Up",  () {
-                                        FocusScope.of(context).unfocus();
-                                        _formKey.currentState!.validate()
-                                            ? validation()
-                                            : print('');
-
-                                        right ? saveAll() : print('');
-                                      Navigator.of(context).pushNamed(SignIn.routeName);
-                                      },)
-                             
+                                ? firebaseUIButton(context, "Sign Up",() {
+                                      FocusScope.of(context).unfocus();
+                                      _formKey.currentState!.validate()
+                                          ? validation()
+                                          : print('');
+                                      right ? saveAll() : print('');
+                                    },
+                                  )
                                 : const Text("")
                       ],
                     ),

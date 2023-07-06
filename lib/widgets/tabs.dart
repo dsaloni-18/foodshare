@@ -1,12 +1,9 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
-
 import '../screens/history.dart';
+import '../screens/pastorders.dart';
+
 class Tabs extends StatefulWidget {
   static const routeName='tabs';
-
-  const Tabs({super.key});
   @override
   _TabsState createState() => _TabsState();
 }
@@ -22,16 +19,18 @@ class _TabsState extends State<Tabs> {
             backgroundColor: Colors.blueAccent,
             title: const Text('Your Orders',style: TextStyle(color: Colors.white),),
             bottom: const TabBar(tabs: [
-         
+              Tab(
+                icon: Icon(Icons.donut_large),
+                text: 'Pending',
+              ),
               Tab(
                 icon: Icon(Icons.done_all),
-                text: 'Past',
+                text: 'Confirmed',
               )
             ]),
           ),
           body: TabBarView(children: [
-      
-          OngoingOrders(),
+         PastOrdersScreen(), OngoingOrders(),
           ]),
         ));
   }

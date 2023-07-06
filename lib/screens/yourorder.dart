@@ -145,14 +145,14 @@ class MyOrders extends StatelessWidget {
                                                     const Text(
                                                       'Date: ',
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                           FontWeight.bold),
                                                     ),
                                                     Text(
                                                       ' ${DateFormat('yMMMd').format(date)}',
                                                       style: const TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: 20,
                                                       ),
                                                     ),
                                                   ],
@@ -164,14 +164,14 @@ class MyOrders extends StatelessWidget {
                                                     const Text(
                                                       'Serves: ',
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                           FontWeight.bold),
                                                     ),
                                                     Text(
                                                       ' ${docs[i]['range']}',
                                                       style: const TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: 20,
                                                       ),
                                                     ),
                                                   ],
@@ -183,14 +183,14 @@ class MyOrders extends StatelessWidget {
                                                     const Text(
                                                       'Category: ',
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                           FontWeight.bold),
                                                     ),
                                                     Text(
                                                       ' ${docs[i]['veg'] ? 'Veg' : 'NonVeg'}',
                                                       style: const TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: 20,
                                                       ),
                                                     ),
                                                   ],
@@ -204,63 +204,63 @@ class MyOrders extends StatelessWidget {
                                                   leading: const Text(
                                                     'Description:',
                                                     style: TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: 20,
                                                         fontWeight:
                                                         FontWeight.bold),
                                                   ),
                                                   title: Text(
                                                     ' ${docs[i]['description']}',
                                                     style: const TextStyle(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const Divider(color: Colors.black),
-                                                ListTile(
-                                                  contentPadding:
-                                                  const EdgeInsets.all(0),
-                                                  leading: const Text(
-                                                    'Order Confirmed by:',
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                        FontWeight.bold),
-                                                  ),
-                                                  title: Container(
-                                                    width:
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                        0.35,
-                                                    child: Text(
-                                                      ' ${docs[i]['orderconfirmed']}',
-                                                      style: const TextStyle(
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                                Text(
-                                                  'Range: ${docs[i]['range']}',
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Category: ${docs[i]['veg']?'Veg':'NonVeg'} ',
-                                                  style: const TextStyle(fontSize: 20),
-                                                ),
-                                                Text(
-                                                  'Description: ${docs[i]['description']}',
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'OrderConfirmeby:${docs[i]['orderconfirmed']}',
-                                                  style: const TextStyle(
                                                       fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                                // const Divider(color: Colors.black),
+                                                // ListTile(
+                                                //   contentPadding:
+                                                //   const EdgeInsets.all(0),
+                                                //   leading: const Text(
+                                                //     'Order Confirmed by:',
+                                                //     style: TextStyle(
+                                                //         fontSize: 16,
+                                                //         fontWeight:
+                                                //         FontWeight.bold),
+                                                //   ),
+                                                //   title: Container(
+                                                //     width:
+                                                //     MediaQuery.of(context)
+                                                //         .size
+                                                //         .width *
+                                                //         0.35,
+                                                //     child: Text(
+                                                //       ' ${docs[i]['orderconfirmed']}',
+                                                //       style: const TextStyle(
+                                                //         fontSize: 16,
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // ),
+
+                                                // Text(
+                                                //   'Range: ${docs[i]['range']}',
+                                                //   style: const TextStyle(
+                                                //     fontSize: 20,
+                                                //   ),
+                                                // ),
+                                                // Text(
+                                                //   'Category: ${docs[i]['veg']?'Veg':'NonVeg'} ',
+                                                //   style: const TextStyle(fontSize: 20),
+                                                // ),
+                                                // Text(
+                                                //   'Description: ${docs[i]['description']}',
+                                                //   style: const TextStyle(
+                                                //     fontSize: 20,
+                                                //   ),
+                                                // ),
+                                                Text(
+                                                  'Order Confirme by: ${docs[i]['orderconfirmed']}',
+                                                  style: const TextStyle(
+                                                      fontSize: 18,
                                                       color: Colors.green,
                                                       fontWeight: FontWeight.bold
                                                   ),

@@ -17,7 +17,7 @@ class _OrdersListState extends State<OrdersList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 2),
+      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -25,7 +25,7 @@ class _OrdersListState extends State<OrdersList> {
             end: Alignment.bottomRight,
             colors: [Colors.black, Colors.white]),
       ),
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height*0.78,
       child: FutureBuilder(
           future: Future.value(FirebaseAuth.instance.currentUser),
           builder: (ctx, snapshot1) {
@@ -64,6 +64,7 @@ class _OrdersListState extends State<OrdersList> {
                         style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic)),
                   )
                       : ListView.builder(
+                        scrollDirection: Axis.vertical,
                       itemCount: documents?.length,
                       itemBuilder: (ctx, i) {
                         DateTime date = documents?[i]['time'].toDate();

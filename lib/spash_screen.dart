@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 1,
       width: MediaQuery.of(context).size.width * 1,
        decoration: const BoxDecoration(
-              image: DecorationImage(image: AssetImage('images/splash.jpg'),fit:BoxFit.cover),
+              //image: DecorationImage(image: AssetImage('images/.jpg'),fit:BoxFit.cover),
               gradient: LinearGradient(
                   colors: [Colors.blueAccent, Colors.white54, Colors.black],
                   begin: Alignment.topCenter,

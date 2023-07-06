@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/tabs.dart';
 
-class MainDrawer extends StatelessWidget {
+// ignore: must_be_immutable
+class MainDrawer2 extends StatelessWidget {
   int value = 0;
 
-  MainDrawer({super.key});
+  MainDrawer2({super.key});
   Widget buildListTile(String title, Function tapHandler, Icon symbol) {
     return ListTile(
       leading: symbol,

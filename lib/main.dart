@@ -1,6 +1,12 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:foodshare/screens/donation_detail_screen.dart';
 import 'package:foodshare/screens/history.dart';
+import 'package:foodshare/screens/ngo_home_screen.dart';
+//import 'package:foodshare/screens/notification.dart';
+import 'package:foodshare/screens/past_orders_details.dart';
+import 'package:foodshare/screens/pastorders.dart';
 import 'package:foodshare/screens/yourorder.dart';
 import 'package:foodshare/sign_in.dart';
 import 'package:foodshare/spash_screen.dart';
@@ -15,9 +21,10 @@ import './widgets/tabs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+//
   runApp(const MyApp());
-  
 }
 
 class MyApp extends StatefulWidget {
@@ -30,12 +37,10 @@ class _MyAppState extends State<MyApp> {
   late bool isDonor;
   bool isLoading = false;
 
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FoodShare',
-  
       home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapshot) {
@@ -76,6 +81,7 @@ class _MyAppState extends State<MyApp> {
           }),
       routes: {
         SplashScreen.routeName: (ctx) => const SplashScreen(),
+        DonationDetailScreen.routeName: (ctx) => DonationDetailScreen(),
         SignIn.routeName: (ctx) => const SignIn(),
         AddOrder.routeName: (ctx) => const AddOrder(),
         DonorMain.routeName: (ctx) => const DonorMain(),
@@ -83,8 +89,11 @@ class _MyAppState extends State<MyApp> {
         ConfirmOrderScreen.routeName: (ctx) => const ConfirmOrderScreen(),
         ReceiverHomeScreen.routeName: (ctx) => ReceiverHomeScreen(),
         MyOrders.routeName: (ctx) => MyOrders(),
-        Tabs.routeName: (ctx) => const Tabs(),
-        OngoingOrders.routeName: (ctx) =>  OngoingOrders(),
+        Tabs.routeName: (ctx) =>  Tabs(),
+        OngoingOrders.routeName: (ctx) => OngoingOrders(),
+        PastOrderDetailScreen.routeName: (ctx) => const PastOrderDetailScreen(),
+        PastOrdersScreen.routeName: (ctx) => PastOrdersScreen(),
+        NGOhomeScreen.routeName:(ctx)=>NGOhomeScreen(),
       },
     );
   }

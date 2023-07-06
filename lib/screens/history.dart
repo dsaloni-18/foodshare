@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../screens/donation_detail_screen.dart';
 
 class OngoingOrders extends StatefulWidget {
   static const routeName = 'abc115';
@@ -10,16 +11,35 @@ class OngoingOrders extends StatefulWidget {
 }
 
 class _OngoingOrdersState extends State<OngoingOrders> {
+  @override
   bool isConfirm = true;
   Widget getDonorTile(int i, final documents) {
-    final food = documents[i]['foodDescription'];
     final rangenumber = documents[i]['range'];
     DateTime date = documents[i]['date'].toDate();
     var formattedDate = DateFormat.MMMd().format(date);
     var formattedDate1 = DateFormat.Hm().format(date);
     return SizedBox(
       child: InkWell(
-       
+         onTap:(){
+               Navigator.of(context)
+              .pushNamed(DonationDetailScreen.routeName, arguments: {
+            'isConfirm': isConfirm,
+            'username': documents[i]['username'],
+            'address': documents[i]['address'],
+            'typeofdonor': documents[i]['typeofdonor'],
+            'isVeg': documents[i]['isVeg'],
+            'range': documents[i]['range'],
+            'foodDescription': documents[i]['description'],
+            'donorName': documents[i]['donorName'],
+            'contact': documents[i]['contact'],
+            'email': documents[i]['email'],
+            'status': documents[i]['status'],
+            'id': documents[i]['id'],
+            'userId': documents[i]['userId'],
+            'date': documents[i]['date'],
+            'time1': documents[i]['time1'],
+          });
+        },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -46,70 +66,21 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                         child: Text(
                           documents[i]['username'],
                           style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      /*Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20))),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.confirmation_number,
-                                  color: Colors.black,
-                                  size: 20,
-                                ),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                Text(
-                                  'Order Number:',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                              ],
-                            ),
-                            Text('1234',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic)),
-                          ],
-                        ),
-                      )*/
+                  
                     ],
                   ),
                   const Divider(
                     color: Colors.black,
                   ),
+                
                   Row(
                     children: <Widget>[
                       const Icon(
-                        Icons.verified_user,
-                        size: 15,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(documents[i]['typeofdonor'],
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontStyle: FontStyle.italic)),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.verified_user,
-                        size: 15,
+                        Icons.fastfood,
+                        size: 25,
                       ),
                       const SizedBox(
                         width: 4,
@@ -117,13 +88,13 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                       Text(documents[i]['foodDescription'],
                           style: const TextStyle(
                               color: Colors.black,
-                              fontStyle: FontStyle.italic)),
+                              fontSize: 20)),
                     ],
                   ),
                   Row(children: [
                     const Icon(
                       Icons.supervised_user_circle,
-                      size: 15,
+                      size: 25,
                     ),
                     const SizedBox(
                       width: 4,
@@ -131,7 +102,7 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                     Text(
                       'Serves $rangenumber',
                       style: const TextStyle(
-                          color: Colors.black, fontStyle: FontStyle.italic),
+                          color: Colors.black, fontSize: 20),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.5),
                     documents[i]['isVeg']
@@ -150,27 +121,25 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                     ),
                     const Icon(
                       Icons.calendar_today,
-                      size: 15,
+                      size: 25,
                       color: Colors.black,
                     ),
                     const SizedBox(
                       width: 4,
                     ),
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Received on:$formattedDate,$formattedDate1',
-                            style: const TextStyle(
-                                color: Colors.green,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic),
-                          ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          'Received on:$formattedDate,$formattedDate1',
+                          style: const TextStyle(
+                              color: Colors.green,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              ),
+                        ),
 
-                          //  Text('',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic)),
-                        ],
-                      ),
+                      
+                      ],
                     )
                   ]),
                 ],
@@ -185,10 +154,7 @@ class _OngoingOrdersState extends State<OngoingOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /* appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Text('Past Orders'),
-        ),*/
+       
         body: FutureBuilder(
             future: Future.value(FirebaseAuth.instance.currentUser),
             builder: (ctx, future1) {
@@ -216,7 +182,8 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                     );
                   }
 
-                  if (streamSnapshot.data!.docs.isEmpty) {
+                 final documents = streamSnapshot.data?.docs;
+                  if (documents!.isEmpty) {
                     return const Center(
                         child: Text(
                       "No Orders yet !",
@@ -234,7 +201,7 @@ class _OngoingOrdersState extends State<OngoingOrders> {
                         itemBuilder: (ctx, i) {
                           if (streamSnapshot.data!.docs[i]['finished'] ==
                               false) {
-                            return SizedBox(height: 0, width: 0);
+                            return const SizedBox(height: 0, width: 0);
                           }
                           return getDonorTile(i, streamSnapshot.data?.docs);
                         },

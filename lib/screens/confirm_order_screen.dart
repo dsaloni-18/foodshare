@@ -18,7 +18,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    userData = ModalRoute.of(context)!.settings.arguments as Map;
+    userData = ModalRoute.of(context)?.settings.arguments as Map;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),

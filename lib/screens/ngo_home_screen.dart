@@ -38,8 +38,183 @@ class _NGOhomeScreenState extends State<NGOhomeScreen> {
   bool status = false;
   bool isConfirm = false;
   late int count;
-
+  
   Widget getDonorTile(int i, final documents) {
+  final rangenumber = documents[i]['range'];
+  DateTime date = documents[i]['date'].toDate();
+  var formattedDate = DateFormat.MMMd().format(date);
+  var formattedDate1 = DateFormat.Hm().format(date);
+  
+  // Calculate the current date
+  DateTime currentDate = DateTime.now();
+  
+  // Check if the donation date is before the current date (expired)
+  bool isExpired = date.isBefore(currentDate);
+
+  // Display only expired food
+  if (!isExpired) {
+    return SizedBox.shrink(); // Return an empty widget if the food is not expired
+  }
+
+  return SizedBox(
+    width: MediaQuery.of(context).size.width,
+    child: InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(DonationDetailScreen.routeName, arguments: {
+          'isConfirm': isConfirm,
+          'username': documents[i]['username'],
+          'address': documents[i]['address'],
+          'typeofdonor': documents[i]['typeofdonor'],
+          'isVeg': documents[i]['isVeg'],
+          'range': documents[i]['range'],
+          'foodDescription': documents[i]['description'],
+          'donorName': documents[i]['donorName'],
+          'contact': documents[i]['contact'],
+          'email': documents[i]['email'],
+          'status': documents[i]['status'],
+          'id': documents[i]['id'],
+          'userId': documents[i]['userId'],
+          'date': documents[i]['date'],
+          'time1': documents[i]['time1'],
+        });
+      },
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              elevation: 2.5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              color: Colors.blue[50],
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        const SizedBox(height: 20,),
+                        const Icon(
+                          Icons.account_circle,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                        Expanded(
+                          child: Text(
+                            documents[i]['username'],
+                            style: const TextStyle(
+                                fontSize: 28, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 15,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.fastfood,
+                            size: 25,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            documents[i]['description'],
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 24),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.supervised_user_circle,
+                            size: 25,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            'Serves $rangenumber',
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 24),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 15,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.date_range,
+                            size: 25,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            formattedDate,
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 24),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                          ),
+                          Text(
+                            formattedDate1,
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 24),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 15,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.location_on,
+                            size: 25,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            documents[i]['address'],
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 24),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 15,),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+  /*Widget getDonorTile(int i, final documents) {
     final rangenumber = documents[i]['range'];
     DateTime date = documents[i]['date'].toDate();
     var formattedDate = DateFormat.MMMd().format(date);
@@ -215,7 +390,7 @@ class _NGOhomeScreenState extends State<NGOhomeScreen> {
         ),
       ),
     );
-  }
+  }*/
 
   Future? orderConfirm(BuildContext context, var documents, var i) {
     if (isLoading) {

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './past_orders_details.dart';
+import 'past_orders_details.dart';
 
 class PastOrdersScreen extends StatefulWidget {
   static const routeName = 'past-orders-screen';

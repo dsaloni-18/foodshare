@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:foodshare/screens/reusable_widgets.dart';
+import 'package:foodshare/widgets/reusable_widgets.dart';
 import 'package:foodshare/sign_in.dart';
 
 class SignUp extends StatefulWidget {
@@ -33,7 +33,7 @@ class _SignUpState extends State<SignUp> {
   bool isResto = false;
   bool isCaterer = false;
   bool isIndividual = false;
-  bool isNGO=false;
+  bool isNGO = false;
   String restoName = '';
   String catererName = '';
   String indiName = '';
@@ -149,34 +149,31 @@ class _SignUpState extends State<SignUp> {
               'reportCount': 0,
             });
           }
-        }
-         else {
-          if(isNGO){
-             await FirebaseFirestore.instance
-              .collection('ngo')
-              .doc(authResult.user?.uid)
-              .set({
-            'username': _userName.trim(),
-            'email': _userEmail.trim(),
-            'password': _userPasswrod.trim()
-          });
-          }
-          else{
+        } else {
+          if (isNGO) {
             await FirebaseFirestore.instance
-              .collection('receiver')
-              .doc(authResult.user?.uid)
-              .set({
-            'username': _userName.trim(),
-            'email': _userEmail.trim(),
-            'password': _userPasswrod.trim()
-          });
+                .collection('ngo')
+                .doc(authResult.user?.uid)
+                .set({
+              'username': _userName.trim(),
+              'email': _userEmail.trim(),
+              'password': _userPasswrod.trim()
+            });
+          } else {
+            await FirebaseFirestore.instance
+                .collection('receiver')
+                .doc(authResult.user?.uid)
+                .set({
+              'username': _userName.trim(),
+              'email': _userEmail.trim(),
+              'password': _userPasswrod.trim()
+            });
           }
         }
-        await FirebaseFirestore.instance.collection('users').doc(authResult.user?.uid).set({'Donor':isDonor,'NGO':isNGO});
-        // await FirebaseFirestore.instance
-        //     .collection('users')
-        //     .doc(authResult.user?.uid)
-        //     .set({'Donor': isDonor});
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(authResult.user?.uid)
+            .set({'Donor': isDonor, 'NGO': isNGO});
         Navigator.of(context).pushNamed(SignIn.routeName);
       } on PlatformException catch (err) {
         if (err.message != null) {}
@@ -198,7 +195,6 @@ class _SignUpState extends State<SignUp> {
         setState(() {
           isLoading = false;
         });
-        //  print(err.message);
       } catch (err) {
         showDialog(
             context: context,
@@ -314,12 +310,10 @@ class _SignUpState extends State<SignUp> {
                         return null;
                       },
                       onFieldSubmitted: (value) {
-                        // validation();
                         _userPasswrod = value;
                         FocusScope.of(context).unfocus();
                       },
                       onSaved: (value) {
-                        // validation();
                         _userPasswrod = value!;
                       },
                     ),
@@ -490,7 +484,7 @@ class _SignUpState extends State<SignUp> {
                           )
                         : const Text(''),
                     count == -1
-                          ?Column(
+                        ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               const SizedBox(
@@ -503,7 +497,7 @@ class _SignUpState extends State<SignUp> {
                                 textAlign: TextAlign.center,
                               ),
                               CheckboxListTile(
-                                title: const Text("NGO",
+                                title: const Text("Compost Center",
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 value: isNGO,
@@ -515,9 +509,8 @@ class _SignUpState extends State<SignUp> {
                                 controlAffinity: ListTileControlAffinity
                                     .leading, //  <-- leading Checkbox
                               ),
-                            
                               CheckboxListTile(
-                                title: const Text('Individual',
+                                title: const Text('NGO/Receiver',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 value: isIndividual,
@@ -532,7 +525,7 @@ class _SignUpState extends State<SignUp> {
                               isNGO
                                   ? TextFormField(
                                       decoration: const InputDecoration(
-                                        labelText: 'NGO name',
+                                        labelText: 'Compost Center Name',
                                         labelStyle: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
@@ -546,7 +539,7 @@ class _SignUpState extends State<SignUp> {
                                       },
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'enter a vaild name';
+                                          return 'Enter a vaild name';
                                         }
                                         return null;
                                       },
@@ -582,27 +575,7 @@ class _SignUpState extends State<SignUp> {
                                     )
                                   : const Text(''),
                             ],
-                          ) 
-                        // ? TextFormField(
-                        //     decoration: const InputDecoration(
-                        //       labelText: 'Your name',
-                        //       labelStyle: TextStyle(
-                        //           fontWeight: FontWeight.bold, fontSize: 18),
-                        //     ),
-                        //     style: const TextStyle(
-                        //         fontWeight: FontWeight.bold, fontSize: 18),
-                        //     onFieldSubmitted: (value) {
-                        //       _userName = value;
-                        //       FocusScope.of(context).unfocus();
-                        //     },
-                        //     validator: (value) {
-                        //       if (value!.isEmpty) return ' Enter a valid name';
-                        //       return null;
-                        //     },
-                        //     onSaved: (value) {
-                        //       _userName = value!;
-                        //     },
-                        //   )
+                          )
                         : const Text(''),
                     const SizedBox(
                       height: 10,
@@ -637,7 +610,10 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               )
                             : count != 0
-                                ? firebaseUIButton(context, "Sign Up",() {
+                                ? firebaseUIButton(
+                                    context,
+                                    "Sign Up",
+                                    () {
                                       FocusScope.of(context).unfocus();
                                       _formKey.currentState!.validate()
                                           ? validation()

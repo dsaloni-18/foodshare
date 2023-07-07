@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../widgets/tabs.dart';
+import 'yourorder.dart';
 
 // ignore: must_be_immutable
-class MainDrawer2 extends StatelessWidget {
+class MainDrawer1 extends StatelessWidget {
   int value = 0;
 
-  MainDrawer2({super.key});
-  Widget buildListTile(String title, Function tapHandler, Icon symbol) {
+  MainDrawer1({super.key});
+  // final receiverName;
+  //MainDrawer(this.receiverName);
+
+  Widget buildListTile(String title, VoidCallback tapHandler, Icon symbol) {
     return ListTile(
       leading: symbol,
       title: Text(title),
-      onTap: () {},
+      onTap: tapHandler,
     );
   }
 
@@ -19,34 +22,35 @@ class MainDrawer2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
+      
         children: <Widget>[
           Container(
             color: Colors.blueAccent,
-            
             padding: const EdgeInsets.only(top: 120, left: 10),
             height: 150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(children: const [
-                   Icon(
+               Row(children: const [
+                  Icon(
                     Icons.account_circle,
                     color: Colors.white,
                   ),
                   SizedBox(
                     width: 4,
                   ),
-                   Text(
-                    'Hello Reciever',
+                  Text(
+                    'Hello Donor !',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ]),
               ],
             ),
           ),
-          const SizedBox(height: 10,),
-          Container(
-           
+          const Divider(
+            color: Colors.white,
+          ),
+         Container(
             color: Colors.blue[200],
             child: ListTile(
               contentPadding: const EdgeInsets.all(10),
@@ -62,12 +66,12 @@ class MainDrawer2 extends StatelessWidget {
                       fontWeight: FontWeight.bold)),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed(Tabs.routeName);
+                Navigator.of(context).pushNamed(MyOrders.routeName);
               },
             ),
           ),
-        const SizedBox(height: 10,),
-          Container(
+          const Divider(color: Colors.white),
+           Container(
             color: Colors.blue[300],
             child: ListTile(
               contentPadding: const EdgeInsets.all(10),
@@ -90,7 +94,7 @@ class MainDrawer2 extends StatelessWidget {
               },
             ),
           ),
-         
+          const Divider(color: Colors.black),
         ],
       ),
     );

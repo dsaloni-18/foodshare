@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import '../widgets/tabs.dart';
+import 'tabs.dart';
 
 class MainDrawer extends StatelessWidget {
   int value = 0;
@@ -37,7 +36,7 @@ class MainDrawer extends StatelessWidget {
                     width: 4,
                   ),
                    Text(
-                    'Hello Reciever',
+                    'Hello NGO',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ]),

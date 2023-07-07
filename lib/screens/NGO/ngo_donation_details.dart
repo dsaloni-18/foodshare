@@ -1,19 +1,19 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import './confirm_order_screen.dart';
+import 'package:foodshare/screens/NGO/ngo_confirm_order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class DonationDetailScreen extends StatefulWidget {
-  static const routeName = 'donation-detail-screen';
+// ignore: use_key_in_widget_constructors
+class NGODonationDetailScreen extends StatefulWidget {
+  static const routeName = 'ngo-donation-detail-screen';
 
   @override
-  _DonationDetailScreenState createState() => _DonationDetailScreenState();
+  _NGODonationDetailScreenState createState() => _NGODonationDetailScreenState();
 }
 
-class _DonationDetailScreenState extends State<DonationDetailScreen> {
+class _NGODonationDetailScreenState extends State<NGODonationDetailScreen> {
   Map userData = {};
   bool isLoading = false;
   var hasTimerStopped = false;
@@ -29,12 +29,12 @@ class _DonationDetailScreenState extends State<DonationDetailScreen> {
                       try {
                         final user = FirebaseAuth.instance.currentUser;
                         var user11 = await FirebaseFirestore.instance
-                            .collection('receiver')
+                            .collection('ngo')
                             .doc(user?.uid)
                             .get();
                         String username1 = user11['username'];
                         await FirebaseFirestore.instance
-                            .collection('receiver')
+                            .collection('ngo')
                             .doc(user?.uid)
                             .collection('past orders')
                             .doc(userData['id'])
@@ -55,7 +55,7 @@ class _DonationDetailScreenState extends State<DonationDetailScreen> {
                           'userId': userData['userId']
                         });
                         Navigator.of(context).pushNamed(
-                            ConfirmOrderScreen.routeName,
+                            NGOConfirmOrder.routeName,
                             arguments: {
                               'status': userData['status'],
                               'id': userData['id'],
@@ -195,7 +195,6 @@ class _DonationDetailScreenState extends State<DonationDetailScreen> {
                         fontStyle: FontStyle.italic)),
                 subtitle: Text(userData['donorName'],
                     style: const TextStyle(
-                        
                         fontSize: 20,
                         )),
               ),
@@ -265,34 +264,12 @@ class _DonationDetailScreenState extends State<DonationDetailScreen> {
               thickness: 4,
             ),
             ListTile(
-              title: const Text('Available till',
+              title: const Text('Expired On:',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               subtitle: Text(
               '$date1',
                 style: const TextStyle(fontSize: 20),
               ),
-            //  subtitle: Align(
-            //     alignment: Alignment.bottomLeft,
-            //     child: CountDownTimer(
-            //       key: UniqueKey(),
-            //       countDownFormatter: (duration) async {
-            //         return '${duration.toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
-            //       },
-            //       countDownTimerStyle: const TextStyle(
-            //           color: Colors.green,
-            //           fontSize: 150.0,
-            //           height: 100
-            //       ),
-            //       secondsRemaining: date2,
-            //       whenTimeExpires: () {
-            //         setState(() {
-            //           hasTimerStopped = true;
-            //         });
-            //       },
-            //       countDownStyle: const TextStyle(
-            //           color: Colors.green, fontSize: 150.0, height: 100),
-            //     ), 
-              // ),
             )
           ],
         ));

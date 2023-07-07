@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:foodshare/screens/receiver_home_screen.dart';
+import 'package:foodshare/screens/Receiver/receiver_home_screen.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   static const routeName = 'confirm-order-screen';

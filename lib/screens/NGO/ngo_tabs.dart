@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import '../screens/history.dart';
-import '../screens/pastorders.dart';
+import 'package:foodshare/screens/NGO/ngo_ongoing_order.dart';
+import 'package:foodshare/screens/NGO/ngo_past_orders.dart';
 
-class Tabs extends StatefulWidget {
-  static const routeName='tabs';
+
+class NGOTabs extends StatefulWidget {
+  static const routeName='ngo-tabs';
+
+  const NGOTabs({super.key});
   @override
-  _TabsState createState() => _TabsState();
+  _NGOTabsState createState() => _NGOTabsState();
 }
 
-class _TabsState extends State<Tabs> {
+class _NGOTabsState extends State<NGOTabs> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -30,7 +33,8 @@ class _TabsState extends State<Tabs> {
             ]),
           ),
           body: TabBarView(children: [
-         PastOrdersScreen(), OngoingOrders(),
+            NgoPastOrdersScreen(),NgoOngoingOrders(),
+        
           ]),
         ));
   }

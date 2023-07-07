@@ -1,17 +1,21 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../screens/donation_detail_screen.dart';
+import '../donor/donation_detail_screen.dart';
 
-class OngoingOrders extends StatefulWidget {
-  static const routeName = 'abc115';
+class NgoOngoingOrders extends StatefulWidget {
+  static const routeName = 'ngo-ongoing-order';
+
+  const NgoOngoingOrders({super.key});
   @override
-  _OngoingOrdersState createState() => _OngoingOrdersState();
+  _NgoOngoingOrdersState createState() => _NgoOngoingOrdersState();
 }
 
-class _OngoingOrdersState extends State<OngoingOrders> {
-  @override
+class _NgoOngoingOrdersState extends State<NgoOngoingOrders> {
   bool isConfirm = true;
   Widget getDonorTile(int i, final documents) {
     final rangenumber = documents[i]['range'];
@@ -167,7 +171,7 @@ class _OngoingOrdersState extends State<OngoingOrders> {
               }
               return StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection('receiver')
+                    .collection('ngo')
                     .doc(future1.data?.uid)
                     .collection('past orders')
                     .orderBy('time', descending: true)

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import './receiver_home_screen.dart';
+import 'receiver_home_screen.dart';
 
 //import './confirm_order_screen.dart';
 class PastOrderDetailScreen extends StatefulWidget {
@@ -330,7 +330,7 @@ class _PastOrderDetailScreenState extends State<PastOrderDetailScreen> {
               thickness: 4,
             ),
               ListTile(
-            title: const Text('Available till',
+            title: const Text('Expired on:',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             subtitle: Text(
             '$date1',

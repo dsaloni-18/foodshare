@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MyOrders extends StatelessWidget {
   static const routeName = 'past-orders-screen1';
+
+  const MyOrders({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +72,7 @@ class MyOrders extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(18),
-                                          color: Theme.of(context).errorColor,
+                                          color: Theme.of(context).colorScheme.error,
                                         ),
                                         alignment: Alignment.centerRight,
                                         padding: const EdgeInsets.only(right: 20),
@@ -215,48 +217,7 @@ class MyOrders extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                                // const Divider(color: Colors.black),
-                                                // ListTile(
-                                                //   contentPadding:
-                                                //   const EdgeInsets.all(0),
-                                                //   leading: const Text(
-                                                //     'Order Confirmed by:',
-                                                //     style: TextStyle(
-                                                //         fontSize: 16,
-                                                //         fontWeight:
-                                                //         FontWeight.bold),
-                                                //   ),
-                                                //   title: Container(
-                                                //     width:
-                                                //     MediaQuery.of(context)
-                                                //         .size
-                                                //         .width *
-                                                //         0.35,
-                                                //     child: Text(
-                                                //       ' ${docs[i]['orderconfirmed']}',
-                                                //       style: const TextStyle(
-                                                //         fontSize: 16,
-                                                //       ),
-                                                //     ),
-                                                //   ),
-                                                // ),
-
-                                                // Text(
-                                                //   'Range: ${docs[i]['range']}',
-                                                //   style: const TextStyle(
-                                                //     fontSize: 20,
-                                                //   ),
-                                                // ),
-                                                // Text(
-                                                //   'Category: ${docs[i]['veg']?'Veg':'NonVeg'} ',
-                                                //   style: const TextStyle(fontSize: 20),
-                                                // ),
-                                                // Text(
-                                                //   'Description: ${docs[i]['description']}',
-                                                //   style: const TextStyle(
-                                                //     fontSize: 20,
-                                                //   ),
-                                                // ),
+                                               
                                                 Text(
                                                   'Order Confirme by: ${docs[i]['orderconfirmed']}',
                                                   style: const TextStyle(

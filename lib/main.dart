@@ -1,35 +1,40 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:foodshare/screens/donation_detail_screen.dart';
-import 'package:foodshare/screens/history.dart';
-import 'package:foodshare/screens/ngo_home_screen.dart';
-//import 'package:foodshare/screens/notification.dart';
-import 'package:foodshare/screens/past_orders_details.dart';
-import 'package:foodshare/screens/pastorders.dart';
-import 'package:foodshare/screens/yourorder.dart';
+import 'package:foodshare/screens/NGO/ngo_donation_details.dart';
+import 'package:foodshare/screens/NGO/ngo_ongoing_order.dart';
+import 'package:foodshare/screens/NGO/ngo_past_order_details.dart';
+import 'package:foodshare/screens/donor/donation_detail_screen.dart';
+import 'package:foodshare/screens/Receiver/history.dart';
+import 'package:foodshare/screens/NGO/ngo_confirm_order.dart';
+import 'package:foodshare/screens/NGO/ngo_home_screen.dart';
+import 'package:foodshare/screens/Receiver/past_orders_details.dart';
+import 'package:foodshare/screens/Receiver/pastorders.dart';
+import 'package:foodshare/screens/donor/yourorder.dart';
 import 'package:foodshare/sign_in.dart';
 import 'package:foodshare/spash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import './screens/add_order.dart';
-import './screens/donor_main.dart';
-import './screens/tick.dart';
-import './screens/receiver_home_screen.dart';
-import './screens/confirm_order_screen.dart';
+import 'package:foodshare/screens/NGO/ngo_tabs.dart';
+import 'screens/donor/add_order.dart';
+import 'screens/donor/donor_main.dart';
+import 'screens/donor/tick.dart';
+import 'screens/Receiver/receiver_home_screen.dart';
+import 'screens/Receiver/confirm_order_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './widgets/tabs.dart';
+import 'screens/Receiver/tabs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-//
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
   @override
+  // ignore: library_private_types_in_public_api
   _MyAppState createState() => _MyAppState();
 }
 
@@ -41,6 +46,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FoodShare',
+      debugShowCheckedModeBanner: false,
       home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapshot) {
@@ -58,7 +64,11 @@ class _MyAppState extends State<MyApp> {
                           if (future1.connectionState == ConnectionState.done) {
                             if (future1.data?['Donor']) {
                               return const DonorMain();
-                            } else {
+                            } 
+                            else if(future1.data?['NGO']) {
+                              return const NGOHomeScreen();
+                            }
+                            else{
                               return ReceiverHomeScreen();
                             }
                           }
@@ -81,19 +91,27 @@ class _MyAppState extends State<MyApp> {
           }),
       routes: {
         SplashScreen.routeName: (ctx) => const SplashScreen(),
-        DonationDetailScreen.routeName: (ctx) => DonationDetailScreen(),
+        DonationDetailScreen.routeName: (ctx) => const DonationDetailScreen(),
         SignIn.routeName: (ctx) => const SignIn(),
         AddOrder.routeName: (ctx) => const AddOrder(),
         DonorMain.routeName: (ctx) => const DonorMain(),
-        TickPage.routeName: (ctx) => TickPage(),
+        TickPage.routeName: (ctx) => const TickPage(),
         ConfirmOrderScreen.routeName: (ctx) => const ConfirmOrderScreen(),
+        NGOHomeScreen.routeName :(ctx)=> const NGOConfirmOrder(),
         ReceiverHomeScreen.routeName: (ctx) => ReceiverHomeScreen(),
-        MyOrders.routeName: (ctx) => MyOrders(),
+        MyOrders.routeName: (ctx) => const MyOrders(),
         Tabs.routeName: (ctx) =>  Tabs(),
         OngoingOrders.routeName: (ctx) => OngoingOrders(),
         PastOrderDetailScreen.routeName: (ctx) => const PastOrderDetailScreen(),
         PastOrdersScreen.routeName: (ctx) => PastOrdersScreen(),
-        NGOhomeScreen.routeName:(ctx)=>NGOhomeScreen(),
+        // ignore: equal_keys_in_map
+        NGOHomeScreen.routeName:(ctx)=> const NGOHomeScreen(),
+        NGOTabs.routeName:(ctx) => const NGOTabs(), 
+        NgoOngoingOrders.routeName:(ctx)=> const NgoOngoingOrders(),
+        NgoPastOrderDetailScreen.routeName:(ctx)=> const NgoPastOrderDetailScreen(),
+        NGOConfirmOrder.routeName: (ctx) => const NGOConfirmOrder(),
+        NGODonationDetailScreen.routeName:(context) => NGODonationDetailScreen(),
+
       },
     );
   }

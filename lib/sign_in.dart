@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import './signinbuttons/sign_buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodshare/screens/ngo_home_screen.dart';
-import 'package:foodshare/screens/reusable_widgets.dart';
+import 'package:foodshare/screens/NGO/ngo_home_screen.dart';
+import 'package:foodshare/widgets/reusable_widgets.dart';
 import './sign_up.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './screens/donor_main.dart';
-import './screens/receiver_home_screen.dart';
+import 'screens/donor/donor_main.dart';
+import 'screens/Receiver/receiver_home_screen.dart';
 //import './error.dart';
 
 class SignIn extends StatefulWidget {
@@ -106,11 +106,12 @@ class _SignInState extends State<SignIn> {
         print("NGO:$isNGO");
         if (isDonor) {
           Navigator.of(context).pushReplacementNamed(DonorMain.routeName);
-        } else{
-          Navigator.of(context).pushReplacementNamed(NGOhomeScreen.routeName);
-        } //else {
-          //Navigator.of(context).pushReplacementNamed(ReceiverHomeScreen.routeName);
-        //}
+        } 
+       else{ if(isNGO){
+          Navigator.of(context).pushReplacementNamed(NGOHomeScreen.routeName);}
+        else {
+          Navigator.of(context).pushReplacementNamed(ReceiverHomeScreen.routeName);
+        }}
       } on PlatformException catch (err) {
         var message = 'An error occurred, please check your credentials!';
         if (err.message != null) {

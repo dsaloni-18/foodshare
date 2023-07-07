@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import './tick.dart';
+import 'tick.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import './donor_main.dart';
+import 'donor_main.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class AddOrder extends StatefulWidget {
@@ -373,7 +373,7 @@ class _AddOrderState extends State<AddOrder> {
                       },
                     ),
                     const Divider(),
-                    const Text('Available upto:'),
+                    const Text('Expired on:'),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,
                       child: TextButton(

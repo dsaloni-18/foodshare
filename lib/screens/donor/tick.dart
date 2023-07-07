@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import './donor_main.dart';
+import 'donor_main.dart';
 
 class TickPage extends StatelessWidget {
   static const routeName = '/tick-page';
+
+  const TickPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
